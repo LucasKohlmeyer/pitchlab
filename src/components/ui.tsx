@@ -32,10 +32,10 @@ export function Section({
   );
 }
 
-export function Stat({ label, value, hint }: { label: string; value: ReactNode; hint?: ReactNode }) {
+export function Stat({ label, value, hint }: { label: ReactNode; value: ReactNode; hint?: ReactNode }) {
   return (
     <div className="card">
-      <p className="text-xs font-medium text-ink-3">{label}</p>
+      <div className="text-xs font-medium text-ink-3">{label}</div>
       <p className="num mt-1 text-2xl font-semibold tracking-tight">{value}</p>
       {hint && <p className="mt-1 text-xs text-ink-3">{hint}</p>}
     </div>

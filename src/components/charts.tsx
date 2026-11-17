@@ -22,9 +22,9 @@ import type { FatiguePoint } from "@/lib/stats/fatigue";
 import type { MixRow, OutingVelocityRow } from "@/lib/stats/summary";
 import type { PitchType } from "@/lib/types";
 
-const GRID = "#2f2f2c";
-const TICK = { fill: "#8f8e84", fontSize: 12 };
-const AXIS_LINE = { stroke: "#2f2f2c" };
+export const GRID = "#2f2f2c";
+export const TICK = { fill: "#8f8e84", fontSize: 12 };
+export const AXIS_LINE = { stroke: "#2f2f2c" };
 const INK = "#f0efec";
 
 type TipEntry = {
@@ -34,9 +34,9 @@ type TipEntry = {
   dataKey?: string | number;
   payload?: Record<string, unknown>;
 };
-type TipProps = { active?: boolean; payload?: ReadonlyArray<TipEntry>; label?: string | number };
+export type TipProps = { active?: boolean; payload?: ReadonlyArray<TipEntry>; label?: string | number };
 
-function TipBox({ title, rows }: { title?: string; rows: { color?: string; label: string; value: string }[] }) {
+export function TipBox({ title, rows }: { title?: string; rows: { color?: string; label: string; value: string }[] }) {
   return (
     <div className="rounded-lg border border-line bg-raised px-3 py-2 text-xs shadow-lg">
       {title && <p className="mb-1 font-medium text-ink">{title}</p>}

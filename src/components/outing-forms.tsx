@@ -99,6 +99,9 @@ export function PitchLogger({ outingId, outingType, readOnly }: { outingId: stri
   const [spin, setSpin] = useState("");
   const [hb, setHb] = useState("");
   const [ivb, setIvb] = useState("");
+  const [releaseHeight, setReleaseHeight] = useState("");
+  const [releaseSide, setReleaseSide] = useState("");
+  const [extension, setExtension] = useState("");
   const [location, setLocation] = useState<{ x: number; z: number } | null>(null);
   const [balls, setBalls] = useState(0);
   const [strikes, setStrikes] = useState(0);
@@ -124,6 +127,9 @@ export function PitchLogger({ outingId, outingType, readOnly }: { outingId: stri
         balls: isGame ? balls : null,
         strikes: isGame ? strikes : null,
         result: result || null,
+        release_height: releaseHeight,
+        release_side: releaseSide,
+        extension,
       });
       if (!response.ok) {
         setError(response.error);
@@ -178,6 +184,12 @@ export function PitchLogger({ outingId, outingType, readOnly }: { outingId: stri
           <NumberField id="spin" label="Spin (rpm)" value={spin} onChange={setSpin} step="1" />
           <NumberField id="hb" label="Horiz. break (in)" value={hb} onChange={setHb} step="0.1" />
           <NumberField id="ivb" label="Ind. vert. break (in)" value={ivb} onChange={setIvb} step="0.1" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <NumberField id="release-height" label="Release height (ft)" value={releaseHeight} onChange={setReleaseHeight} step="0.01" />
+          <NumberField id="release-side" label="Release side (ft)" value={releaseSide} onChange={setReleaseSide} step="0.01" />
+          <NumberField id="extension" label="Extension (ft)" value={extension} onChange={setExtension} step="0.01" />
         </div>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">

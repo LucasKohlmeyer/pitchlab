@@ -100,6 +100,23 @@ export async function deletePitch(outingId: string, pitchId: string): Promise<Ac
   return { ok: true };
 }
 
+/** Saves the pitcher's throwing hand, used to mirror horizontal movement for Stuff+ and comps. */
+export async function setThrows(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const auth = await writer();
+  if (auth.error) return { ok: false, error: auth.error };
+
+  const throws = String(formData.get("throws") ?? "");
+  if (throws !== "L" && throws !== "R") return { ok: false, error: "Choose left or right." };
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("pitcher_profiles")
+    .upsert({ throws, updated_at: new Date().toISOString() }, { onConflict: "user_id" });
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/stuff");
+  return { ok: true };
+}
+
 const MAX_IMPORT = 2000;
 
 /** Creates an outing from an imported CSV. Every pitch is re-validated on the server. */

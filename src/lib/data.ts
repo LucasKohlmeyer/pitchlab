@@ -53,6 +53,14 @@ export async function getOuting(id: string): Promise<Outing | null> {
   return data as Outing | null;
 }
 
+/** The signed-in pitcher's throwing hand, if they have set it. */
+export async function getThrows(): Promise<"L" | "R" | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("pitcher_profiles").select("throws").maybeSingle();
+  if (error || !data) return null;
+  return data.throws === "L" || data.throws === "R" ? data.throws : null;
+}
+
 /** Every pitch for the user (or for one outing), paged past the row cap. */
 export async function getPitches(outingId?: string): Promise<Pitch[]> {
   const supabase = await createClient();

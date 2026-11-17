@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/lib/supabase/env";
 
-const PROTECTED = ["/dashboard", "/outings", "/import", "/insights"];
+const PROTECTED = ["/dashboard", "/outings", "/import", "/insights", "/stuff"];
 const AUTH_PAGES = ["/login", "/signup"];
 
 /**
