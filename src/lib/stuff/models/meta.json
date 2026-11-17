@@ -1,0 +1,181 @@
+{
+  "features": [
+    "velo",
+    "spin",
+    "hb_arm",
+    "ivb",
+    "rel_height",
+    "rel_side_arm",
+    "extension",
+    "velo_diff",
+    "hb_diff",
+    "ivb_diff"
+  ],
+  "target": "delta_run_exp (runs per pitch, batter's perspective; lower is better for the pitcher)",
+  "seasons": [
+    2025,
+    2026
+  ],
+  "split": {
+    "train": "2025-03-18 to 2026-05-14",
+    "validation": "2026-05-15 to 2026-06-30",
+    "test": "2026-07-01 to 2026-09-27"
+  },
+  "trainedOn": "2026-11-16",
+  "library": "lightgbm 4.7.0",
+  "params": {
+    "objective": "regression",
+    "learning_rate": 0.02,
+    "num_leaves": 7,
+    "min_child_samples": 2000,
+    "subsample": 0.8,
+    "subsample_freq": 1,
+    "colsample_bytree": 0.8,
+    "reg_lambda": 20.0,
+    "n_estimators": 2000
+  },
+  "minPitcherPitches": 200,
+  "groups": {
+    "fastball": {
+      "mean": -0.0007819351491526552,
+      "sd": 0.006321716792380699,
+      "rows": {
+        "train": 495341,
+        "validation": 101030,
+        "test": 188345
+      },
+      "trees": 399,
+      "rmse": {
+        "model": 0.22523495228611978,
+        "constant": 0.22531268923171288,
+        "pitchTypeMean": 0.22530715909671997,
+        "linear": 0.22529392084511307,
+        "modelPartialInputs": 0.22523938945704244
+      },
+      "r2": {
+        "model": 0.000689917070656465,
+        "linear": 0.0001665916373125853,
+        "modelPartialInputs": 0.0006505434896550977
+      },
+      "pitcherLevel": {
+        "pitchers": 365,
+        "rModel": 0.20121622661979302,
+        "rLinear": 0.10235652998419019,
+        "rModelPartialInputs": 0.27851205514762856
+      },
+      "stuffByPitcher": {
+        "sd": 6.449529207727186,
+        "p10": 91.74048262734084,
+        "p50": 100.06769168202487,
+        "p90": 107.95982565933718,
+        "count": 670
+      },
+      "importance": {
+        "velo": 0.11969024964153813,
+        "spin": 0.07776631709353911,
+        "hb_arm": 0.13300311716185007,
+        "ivb": 0.18508011427234092,
+        "rel_height": 0.09197987843694244,
+        "rel_side_arm": 0.052126604269053065,
+        "extension": 0.04259823180625776,
+        "velo_diff": 0.07159810878540736,
+        "hb_diff": 0.09449023640249038,
+        "ivb_diff": 0.13166714213058076
+      }
+    },
+    "breaking": {
+      "mean": 1.0180538877389906e-05,
+      "sd": 0.005188050038088715,
+      "rows": {
+        "train": 278937,
+        "validation": 55819,
+        "test": 98974
+      },
+      "trees": 398,
+      "rmse": {
+        "model": 0.21955749312651907,
+        "constant": 0.21960597432271317,
+        "pitchTypeMean": 0.21960218117207356,
+        "linear": 0.21956943590488748,
+        "modelPartialInputs": 0.21955719002765045
+      },
+      "r2": {
+        "model": 0.00044148019998868637,
+        "linear": 0.0003327357397823194,
+        "modelPartialInputs": 0.00044423997687459416
+      },
+      "pitcherLevel": {
+        "pitchers": 189,
+        "rModel": 0.2742610008333301,
+        "rLinear": 0.23925760881832075,
+        "rModelPartialInputs": 0.28554810746303244
+      },
+      "stuffByPitcher": {
+        "sd": 7.608204509587535,
+        "p10": 91.21476458582309,
+        "p50": 100.63138531029549,
+        "p90": 109.82904963666407,
+        "count": 370
+      },
+      "importance": {
+        "velo": 0.1492826617425856,
+        "spin": 0.07703566842195553,
+        "hb_arm": 0.12465638642347457,
+        "ivb": 0.10998527796679251,
+        "rel_height": 0.12638941343817067,
+        "rel_side_arm": 0.07109285132418133,
+        "extension": 0.04498496980536099,
+        "velo_diff": 0.09900557245133161,
+        "hb_diff": 0.09713002553279661,
+        "ivb_diff": 0.1004371728933506
+      }
+    },
+    "offspeed": {
+      "mean": -0.00042534711232620126,
+      "sd": 0.0027164899743929117,
+      "rows": {
+        "train": 125696,
+        "validation": 25541,
+        "test": 49291
+      },
+      "trees": 59,
+      "rmse": {
+        "model": 0.21361726736651998,
+        "constant": 0.2136278100422622,
+        "pitchTypeMean": 0.2136264715660351,
+        "linear": 0.21364126829673805,
+        "modelPartialInputs": 0.21362223067643035
+      },
+      "r2": {
+        "model": 9.869890625258115e-05,
+        "linear": -0.00012600118307504182,
+        "modelPartialInputs": 5.223377023777509e-05
+      },
+      "pitcherLevel": {
+        "pitchers": 76,
+        "rModel": 0.09741280199718191,
+        "rLinear": 0.1452932953949723,
+        "rModelPartialInputs": 0.13759080621320244
+      },
+      "stuffByPitcher": {
+        "sd": 7.263238873904683,
+        "p10": 91.17068964793992,
+        "p50": 99.58010608379,
+        "p90": 108.6059795479041,
+        "count": 175
+      },
+      "importance": {
+        "velo": 0.1894420195027747,
+        "spin": 0.05141213117593958,
+        "hb_arm": 0.07453215954367766,
+        "ivb": 0.11557516116294217,
+        "rel_height": 0.14591428014702196,
+        "rel_side_arm": 0.08274174158804153,
+        "extension": 0.004683068434808929,
+        "velo_diff": 0.15537676972479858,
+        "hb_diff": 0.0747241750896494,
+        "ivb_diff": 0.1055984936303455
+      }
+    }
+  }
+}
