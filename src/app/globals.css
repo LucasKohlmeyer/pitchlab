@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/* PitchLab ships a single dark theme. Tokens are named by role. */
+@theme inline {
+  --color-page: #111110;
+  --color-surface: #1a1a19;
+  --color-raised: #232321;
+  --color-line: #2f2f2c;
+  --color-ink: #f0efec;
+  --color-ink-2: #c3c2b7;
+  --color-ink-3: #8f8e84;
+  --color-accent: #3987e5;
+  --color-good: #0ca30c;
+  --color-warn: #fab219;
+  --color-bad: #e66767;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-line bg-surface p-5;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply bg-ink text-page hover:bg-white;
+  }
+  .btn-secondary {
+    @apply border border-line bg-raised text-ink hover:border-ink-3;
+  }
+  .btn-danger {
+    @apply border border-line text-bad hover:border-bad;
+  }
+  .field {
+    @apply w-full rounded-lg border border-line bg-page px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none;
+  }
+  .label {
+    @apply mb-1 block text-xs font-medium text-ink-2;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Recharts: keep focus rings off chart surfaces. */
+.recharts-wrapper *:focus {
+  outline: none;
+}
