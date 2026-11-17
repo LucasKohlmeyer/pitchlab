@@ -1,0 +1,39 @@
+{
+  "_comment": "Shared by ml/tests/test_conventions.py and src/lib/stuff/__tests__/conventions.test.ts so Python and TypeScript cannot drift apart.",
+  "statcast_to_pitchlab": [
+    {
+      "name": "right-hander four-seam: arm-side run is negative pfx_x for the catcher, positive HB for the pitcher",
+      "statcast": { "pfx_x": -0.68, "pfx_z": 1.32, "release_pos_x": -1.85, "release_pos_z": 5.9, "release_extension": 6.5 },
+      "pitchlab": { "hb": 8.16, "ivb": 15.84, "release_side": 1.85, "release_height": 5.9, "extension": 6.5 }
+    },
+    {
+      "name": "left-hander four-seam: mirror image",
+      "statcast": { "pfx_x": 0.7, "pfx_z": 1.34, "release_pos_x": 2.1, "release_pos_z": 6.0, "release_extension": 6.4 },
+      "pitchlab": { "hb": -8.4, "ivb": 16.08, "release_side": -2.1, "release_height": 6.0, "extension": 6.4 }
+    },
+    {
+      "name": "curveball: negative induced vertical break stays negative",
+      "statcast": { "pfx_x": 0.5, "pfx_z": -0.75, "release_pos_x": -2.0, "release_pos_z": 6.1, "release_extension": 6.2 },
+      "pitchlab": { "hb": -6.0, "ivb": -9.0, "release_side": 2.0, "release_height": 6.1, "extension": 6.2 }
+    },
+    {
+      "name": "zeros stay zero",
+      "statcast": { "pfx_x": 0, "pfx_z": 0, "release_pos_x": 0, "release_pos_z": 5.5, "release_extension": 6.0 },
+      "pitchlab": { "hb": 0, "ivb": 0, "release_side": 0, "release_height": 5.5, "extension": 6.0 }
+    }
+  ],
+  "arm_side_positive": [
+    { "name": "righty arm-side run stays positive", "value": 8.16, "throws": "R", "expected": 8.16 },
+    { "name": "lefty arm-side run (negative in pitcher's view) becomes positive", "value": -8.4, "throws": "L", "expected": 8.4 },
+    { "name": "lefty glove-side sweep becomes negative", "value": 9.7, "throws": "L", "expected": -9.7 },
+    { "name": "righty glove-side sweep stays negative", "value": -9.7, "throws": "R", "expected": -9.7 },
+    { "name": "lefty release side", "value": -2.1, "throws": "L", "expected": 2.1 }
+  ],
+  "mirror_pairs": [
+    {
+      "name": "a lefty and a righty with mirror-image pitches produce identical model features",
+      "left": { "throws": "L", "hb": -9.4, "release_side": -2.0 },
+      "right": { "throws": "R", "hb": 9.4, "release_side": 2.0 }
+    }
+  ]
+}

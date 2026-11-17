@@ -29,6 +29,9 @@ function p(
     balls: 0,
     strikes: 0,
     result,
+    release_height: null,
+    release_side: null,
+    extension: null,
     ...extra,
   };
 }

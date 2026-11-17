@@ -10,6 +10,9 @@ export const RANGES = {
   plate_z: { min: -2, max: 8, label: "Plate height", unit: "ft" },
   balls: { min: 0, max: 3, label: "Balls", unit: "" },
   strikes: { min: 0, max: 2, label: "Strikes", unit: "" },
+  release_height: { min: 0, max: 9, label: "Release height", unit: "ft" },
+  release_side: { min: -6, max: 6, label: "Release side", unit: "ft" },
+  extension: { min: 2, max: 9, label: "Extension", unit: "ft" },
 } as const;
 
 export type NumericField = keyof typeof RANGES;
@@ -30,6 +33,9 @@ const DIGITS: Record<NumericField, number> = {
   plate_z: 2,
   balls: 0,
   strikes: 0,
+  release_height: 2,
+  release_side: 2,
+  extension: 2,
 };
 
 /**

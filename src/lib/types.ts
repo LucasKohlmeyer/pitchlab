@@ -30,6 +30,9 @@ export type Pitch = {
   balls: number | null;
   strikes: number | null;
   result: PitchResult | null;
+  release_height: number | null; // ft above ground
+  release_side: number | null; // ft from rubber center, pitcher's view, + = right
+  extension: number | null; // ft in front of the rubber
 };
 
 /** A pitch before it is saved. */

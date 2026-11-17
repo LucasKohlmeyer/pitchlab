@@ -4,10 +4,13 @@ import type { Outing, Pitch } from "./types";
 
 const OUTING_COLUMNS = "id, outing_date, outing_type, opponent, notes, source";
 const PITCH_COLUMNS =
-  "id, outing_id, pitch_number, pitch_type, velocity, spin_rate, hb, ivb, plate_x, plate_z, balls, strikes, result";
+  "id, outing_id, pitch_number, pitch_type, velocity, spin_rate, hb, ivb, plate_x, plate_z, balls, strikes, result, release_height, release_side, extension";
 const PAGE = 1000; // PostgREST caps a single response at 1000 rows.
 
-type PitchRow = Omit<Pitch, "velocity" | "hb" | "ivb" | "plate_x" | "plate_z"> & {
+type PitchRow = Omit<Pitch, "velocity" | "hb" | "ivb" | "plate_x" | "plate_z" | "release_height" | "release_side" | "extension"> & {
+  release_height: number | string | null;
+  release_side: number | string | null;
+  extension: number | string | null;
   velocity: number | string | null;
   hb: number | string | null;
   ivb: number | string | null;
@@ -25,6 +28,9 @@ function toPitch(row: PitchRow): Pitch {
     ivb: num(row.ivb),
     plate_x: num(row.plate_x),
     plate_z: num(row.plate_z),
+    release_height: num(row.release_height),
+    release_side: num(row.release_side),
+    extension: num(row.extension),
   };
 }
 

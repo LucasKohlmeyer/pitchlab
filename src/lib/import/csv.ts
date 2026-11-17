@@ -24,6 +24,9 @@ export const IMPORT_FIELDS = [
   { key: "balls", label: "Balls", required: false },
   { key: "strikes", label: "Strikes", required: false },
   { key: "result", label: "Result", required: false },
+  { key: "release_height", label: "Release height (ft)", required: false },
+  { key: "release_side", label: "Release side (ft)", required: false },
+  { key: "extension", label: "Extension (ft)", required: false },
 ] as const;
 
 export type ImportField = (typeof IMPORT_FIELDS)[number]["key"];
@@ -33,7 +36,7 @@ export type Mapping = Record<ImportField, string | null>;
 export type ImportOptions = {
   /** Unit of the plate location columns. Rapsodo exports inches, TrackMan feet. */
   locationUnit: "in" | "ft";
-  /** Flip the sign of horizontal break and plate side, for files that use the opposite convention. */
+  /** Flip the sign of horizontal break, plate side, and release side, for files that use the opposite convention. */
   flipHorizontal: boolean;
 };
 
@@ -54,6 +57,9 @@ const ALIASES: Record<ImportField, string[]> = {
   balls: ["balls"],
   strikes: ["strikes"],
   result: ["pitchcall", "result", "pitchresult", "outcome"],
+  release_height: ["relheight", "releaseheight"],
+  release_side: ["relside", "releaseside"],
+  extension: ["extension", "releaseextension"],
 };
 
 const KNOWN_HEADERS = new Set(Object.values(ALIASES).flat());
@@ -203,7 +209,7 @@ export function mapRows(rows: Record<string, string>[], mapping: Mapping, option
         const feet = options.locationUnit === "in" ? n / 12 : n;
         return field === "plate_x" && options.flipHorizontal ? -feet : feet;
       }
-      if (field === "hb" && options.flipHorizontal) return -n;
+      if ((field === "hb" || field === "release_side") && options.flipHorizontal) return -n;
       return n;
     };
 
@@ -218,6 +224,9 @@ export function mapRows(rows: Record<string, string>[], mapping: Mapping, option
       plate_z: number("plate_z"),
       balls: number("balls"),
       strikes: number("strikes"),
+      release_height: number("release_height"),
+      release_side: number("release_side"),
+      extension: number("extension"),
     });
     if (!checked.pitch) {
       skipped++;

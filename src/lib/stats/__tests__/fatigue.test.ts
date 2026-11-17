@@ -94,6 +94,9 @@ const pitch = (n: number, type: Pitch["pitch_type"], velocity: number | null): P
   balls: null,
   strikes: null,
   result: null,
+  release_height: null,
+  release_side: null,
+  extension: null,
 });
 
 describe("fatigueForOuting", () => {

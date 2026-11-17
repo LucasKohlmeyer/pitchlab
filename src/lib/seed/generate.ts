@@ -203,6 +203,15 @@ function drawResult(
   return rng.uniform() < (twoStrikes ? 0.52 : 0.44) ? "foul" : "in_play";
 }
 
+const NO_RELEASE = { release_height: null, release_side: null, extension: null };
+
+/** Release point per pitch: [mean, sd]. A lefty releases to his left, so release side is negative. */
+const RELEASE: Record<keyof typeof ARSENAL, { height: [number, number]; side: [number, number]; extension: [number, number] }> = {
+  FF: { height: [5.95, 0.07], side: [-2.0, 0.1], extension: [6.25, 0.1] },
+  FT: { height: [5.85, 0.07], side: [-2.15, 0.1], extension: [6.2, 0.1] },
+  SV: { height: [5.8, 0.07], side: [-2.25, 0.1], extension: [5.95, 0.1] },
+};
+
 function simulateGame(rng: Rng, plan: OutingPlan, dayOffset: number): PitchInput[] {
   const total = rng.int(82, 100);
   const fadeRate = plan.fadeStart === null ? 0 : 0.065 + rng.uniform() * 0.03; // mph lost per pitch after onset
@@ -217,7 +226,7 @@ function simulateGame(rng: Rng, plan: OutingPlan, dayOffset: number): PitchInput
     const type = choosePitch(rng, balls, strikes);
     const pitch = throwPitch(rng, type, n, dayOffset, drift + fade, strikes === 2);
     const result = drawResult(rng, pitch, balls, strikes);
-    pitches.push({ ...pitch, balls, strikes, result });
+    pitches.push({ ...pitch, balls, strikes, result, ...NO_RELEASE });
 
     if (result === "ball") balls++;
     else if (result === "called_strike" || result === "whiff") strikes++;
@@ -239,17 +248,27 @@ function simulateBullpen(rng: Rng, dayOffset: number): PitchInput[] {
     const type: keyof typeof ARSENAL = n <= 8 ? (u < 0.75 ? "FF" : "FT") : u < 0.4 ? "FF" : u < 0.65 ? "FT" : "SV";
     // Bullpen intensity runs a tick below game speed. No hitter, so no count or result.
     const pitch = throwPitch(rng, type, n, dayOffset - 0.8, 0.004 * n, false);
-    pitches.push({ ...pitch, balls: null, strikes: null, result: null });
+    pitches.push({ ...pitch, balls: null, strikes: null, result: null, ...NO_RELEASE });
   }
   return pitches;
 }
 
 export function generateSeason(seed = 20260214): SeedOuting[] {
   const rng = createRng(seed);
+  const releaseRng = createRng(seed ^ 0x5eed);
   return PLANS.map((plan, i) => {
     // Day-to-day variation plus a small build-up through the spring.
     const dayOffset = rng.normal(0, 0.45) + (i / (PLANS.length - 1)) * 0.7 - 0.35;
-    const pitches = plan.type === "game" ? simulateGame(rng, plan, dayOffset) : simulateBullpen(rng, dayOffset);
+    const pitches = (plan.type === "game" ? simulateGame(rng, plan, dayOffset) : simulateBullpen(rng, dayOffset)).map((pitch) => {
+      // Release data comes from its own random stream so adding it did not change any earlier value.
+      const release = RELEASE[pitch.pitch_type as keyof typeof ARSENAL];
+      return {
+        ...pitch,
+        release_height: r2(releaseRng.normal(...release.height)),
+        release_side: r2(releaseRng.normal(...release.side)),
+        extension: r2(releaseRng.normal(...release.extension)),
+      };
+    });
     return {
       outing_date: plan.date,
       outing_type: plan.type,

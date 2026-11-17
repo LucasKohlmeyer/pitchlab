@@ -50,3 +50,11 @@ next-env.d.ts
 
 # the template has placeholders only and is safe to commit
 !.env.example
+
+# ml pipeline
+ml/.venv/
+ml/data/
+ml/artifacts/
+__pycache__/
+.pytest_cache/
+ml/*.log
